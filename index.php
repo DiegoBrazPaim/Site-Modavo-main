@@ -1,0 +1,726 @@
+<?php
+session_start();
+include_once('conexao.php');
+$sql = "SELECT * FROM Usuario ORDER BY id DESC";
+$result = $conexao->query($sql);
+
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Modavo - CPaaS</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Template Main CSS File -->
+  <link href="../Site-Modavo-main/assets/css/style.css" rel="stylesheet">
+
+  <!-- Favicons -->
+  <link href="../Site-Modavo-main/assets/img/icons/favicontelecall.png" rel="icon">
+  <link href="../Site-Modavo-main/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
+
+
+  <!-- Vendor CSS Files -->
+  <link href="../Site-Modavo-main/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../Site-Modavo-main/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../Site-Modavo-main/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="../Site-Modavo-main/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="../Site-Modavo-main/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="../Site-Modavo-main/assets/vendor/aos/aos.css" rel="stylesheet">
+</head>
+
+<body>
+  <!--=======Alterar Fonte-->
+
+ 
+  <!-- ======= Header ======= -->
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href="index.php" class="logo d-flex align-items-center">
+        <img src="../Site-Modavo-main/assets/img/modavo.png" alt="">
+      </a>
+
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="index.php" class="active">Home</a></li>
+          <li class="dropdown"><a href="#"><span>Serviços</span> <i
+                class="bi bi-chevron-down dropdown-indicator"></i></a>
+            <ul>
+              <li><a href="../Site-Modavo-main/2FA.html">Autenticação de 2 fatores</a></li>
+              
+       
+              
+              <li><a href="../Site-Modavo-main/numeromascara.html">Número Máscara</a></li>
+              <li><a href="../Site-Modavo-main/googleverifieldcalls.html">Google Verified Calls</a></li>
+              <li><a href="../Site-Modavo-main/smsprogramavel.html">SMS Programável</a></li>
+            </ul>
+          </li>
+          <li><a href="../Site-Modavo-main/sobrenos.html">Sobre nós</a></li>
+          <li><a href="#contato">Contato</a></li>
+          
+          <?php 
+
+          if (!isset($_SESSION['login']) || !isset($_SESSION['senha'])|| !isset($_SESSION['permissoes']) || !isset($_SESSION['id']))
+          {
+            unset($_SESSION['login']);
+            unset($_SESSION['senha']);
+            echo "<li><a id='buttonlogin' class='get-a-quote' href='page_login.php'>Login</a></li>";
+            echo "<li><a id='buttoncadastro' class='get-a-quote' href='page_submit.php'>Cadastre-se</a></li>";
+          }
+        else{
+
+          $logado = $_SESSION['login'];
+          $perm = $_SESSION['permissoes'];
+          echo "<li hidden><a id='buttonlogin' class='get-a-quote' href='page_login.php'>Login</a></li>";
+          echo "<li hidden><a id='buttoncadastro' class='get-a-quote' href='page_submit.php'>Cadastre-se</a></li>";
+         
+          echo "<nav id='login_dropdown' class='navbar'>";
+          echo "<ul>";
+          echo "<li class='dropdown'>";
+          echo "<a href='#'>$logado<i class='bi bi-chevron-down dropdown-indicator'></i></a>";
+          echo "<ul>";
+
+          if ($perm == 1){ 
+          echo "<li><a href='change_password.php'>Alterar senha</a></li>";
+          echo "<li><a href='sair.php'>Logout</a></li>";
+          echo "</ul>";
+        }
+
+        if ($perm == 2){ 
+          echo "<li><a href='master.php'>Admin</a></li>";
+          echo "<li><a href='sair.php'>Logout</a></li>";
+          echo "</ul>";
+          echo "</nav>";
+        }}
+        ?>
+          
+        </ul>
+      </nav>
+      
+     
+      <img src="../Site-Modavo-main/assets/img/icons/lua.png" id="iconetrocarcor"onclick="mododark(this)" > 
+      <button class="bot0es" onclick="mudarTamanhoFonte(2)">Fonte+</button>
+      <button class="bot0es" onclick="mudarTamanhoFonte(-2)">Fonte-</button>
+      <div id="resultado"></div>
+
+      
+      <!-- .navbar -->
+    </div>
+  </header>
+  <!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="hero d-flex align-items-center">
+    <div class="container">
+      <div class="row gy-4 d-flex justify-content-between">
+        <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
+          <h2 data-aos="fade-up">O que é CPaaS?</h2>
+          <p data-aos="fade-up" data-aos-delay="100">CPaaS (Plataforma de comunicação como serviço) é a solução perfeita
+            para o seu negócio. O serviço oferece estrutura completa para que canais de comunicação como mensagens de
+            texto SMS, chamadas de vídeo e voz, e-mail, entre outros, sejam facilmente integrados aos sistemas das
+            empresas por meio de APIs que se conectam à plataforma Modavo.</p>
+          <h2 data-aos="fade-up">Como funciona?</h2>
+          <p data-aos="fade-up" data-aos-delay="100">Nossa API permite que as empresas expandam suas ofertas sem a
+            necessidade de hardware ou software adicional.</p>
+          <button type="button" class="btn btn-primary p-2" data-aos="fade-up" data-aos-delay="100"
+            style="text-transform: uppercase;font-size: 15px; color:white">faça um teste grátis ></button>
+
+          <button type="button" class="btn btn-success p-2 mt-2" data-aos="fade-up" data-aos-delay="100"
+            style="text-transform: uppercase;font-size: 15px;color:white">fale com um especialista ></button>
+          <div class="row gy-4" data-aos="fade-up" data-aos-delay="400">
+
+            <div class="col-lg-3 col-6">
+              <div class="stats-item text-center w-100 h-100">
+                <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1"
+                  class="purecounter"></span>
+                <p>Clientes</p>
+              </div>
+            </div>
+            <!-- End Stats Item -->
+
+            <div class="col-lg-3 col-6">
+              <div class="stats-item text-center w-100 h-100">
+                <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1"
+                  class="purecounter"></span>
+                <p>Serviços</p>
+              </div>
+            </div>
+            <!-- End Stats Item -->
+
+            <div class="col-lg-3 col-6">
+              <div class="stats-item text-center w-100 h-100">
+                <span data-purecounter-start="0" data-purecounter-end="1453" data-purecounter-duration="1"
+                  class="purecounter"></span>
+                <p>Suporte</p>
+              </div>
+            </div>
+            <!-- End Stats Item -->
+
+            <div class="col-lg-3 col-6">
+              <div class="stats-item text-center w-100 h-100">
+                <span data-purecounter-start="0" data-purecounter-end="32" data-purecounter-duration="1"
+                  class="purecounter"></span>
+                <p>Trabalhos</p>
+              </div>
+            </div>
+            <!-- End Stats Item -->
+
+          </div>
+        </div>
+
+        <div class="col-lg-5 order-1 order-lg-2 hero-img" data-aos="zoom-out">
+          <img src="..Site-Modavo-main//assets/img/cpaasimgcomputer.png" class="img-fluid mb-3 mb-lg-0" alt="">
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- End Hero Section -->
+
+  <main id="main">
+
+    <!-- ======= Featured Services Section ======= -->
+    <section id="featured-services" class="featured-services">
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up">
+            <div class="icon flex-shrink-0"><i class="fa-solid fa-lock"></i></div>
+            <div>
+              <h4 class="title">Autenticação de Dois Fatores</h4>
+              <p class="description">É um procedimento de segurança que garante que serão
+                necessários 2 fatores únicos para liberação de uma ação.</p>
+              <a href="service-details.html" class="readmore stretched-link"><span>Saiba Mais</span><i
+                  class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="100">
+            <div class="icon flex-shrink-0"><i aria-hidden="true" class="fas fa-mask"></i></div>
+            <div>
+              <h4 class="title">Número Máscara</h4>
+              <p class="description">Garanta aos seus clientes a capacidade de fazer chamadas e enviar
+                mensagens sem expor seus números de telefone pessoais.</p>
+              <a href="service-details.html" class="readmore stretched-link"><span>Saiba Mais</span><i
+                  class="bi bi-arrow-right"></i></a>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="200">
+            <div class="icon flex-shrink-0"><i class="bi bi-patch-check-fill"></i></div>
+            <div>
+              <h4 class="title">Google Verified Calls</h4>
+              <p class="description">Esse novo recurso do Google, exclusivo para
+                telefones Android, permite que empresas exibam
+                para o cliente na hora da chamada sua marca,
+                logotipo e até mesmo o motivo da chamada.</p>
+              <a href="service-details.html" class="readmore stretched-link"><span>Saiba Mais</span><i
+                  class="bi bi-arrow-right"></i></a>
+            </div>
+          </div><!-- End Service Item -->
+          <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="200">
+            <div class="icon flex-shrink-0"><i aria-hidden="true" class="far fa-envelope"></i></div>
+            <div>
+              <h4 class="title">SMS Programável</h4>
+              <p class="description">Com essa ferramenta você envia mensagens de SMS com
+                as informações que o seu cliente precisa e com a
+                segurança, a velocidade e a confiabilidade que você
+                espera.</p>
+              <a href="service-details.html" class="readmore stretched-link"><span>Saiba Mais</span><i
+                  class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Featured Services Section -->
+
+    <!-- ======= Sobre nós Section ======= -->
+    <section id="about" class="about pt-0">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row gy-6 d-flex align-items-center">
+          <div class="col-lg-6 position-relative align-self-start order-lg-last order-first pt-5">
+            <img src="../Site-Modavo-main/assets/img/criancas-e-tecnologia.jpg" class="img-fluid" alt="">
+            <a href="https://www.youtube.com/watch?v=0Po4UbJl6l8" class="glightbox play-btn"></a>
+          </div>
+          <div class="col-lg-6 content order-last  order-lg-first">
+            <h3 id="sobrenos">Por que Modavo?</h3>
+            <p>
+              Nossa plataforma conecta empresas e desenvolvedores em uma potente plataforma na nuvem, que possibilita a
+              integração de canais de comunicação de maneira simples e descomplicada. Com as APIs Modavo você tem
+              garantia de escalabilidade, flexibilidade, autenticação e segurança aprimoradas.
+            </p>
+            <ul>
+              <li data-aos="fade-up" data-aos-delay="100">
+                <i class="bi bi-diagram-3"></i>
+                <div>
+                  <h5>Confiabilidade</h5>
+                  <p>Empresa que já conhecem e confiam;</p>
+                </div>
+              </li>
+              <li data-aos="fade-up" data-aos-delay="200">
+                <i class="bi bi-fullscreen-exit"></i>
+                <div>
+                  <h5>Agilidade</h5>
+                  <p>Aplicativos de rápida implementação;</p>
+                </div>
+              </li>
+              <li data-aos="fade-up" data-aos-delay="300">
+                <i class="bi bi-broadcast"></i>
+                <div>
+                  <h5>Garantia de Rede</h5>
+                  <p>Rede própria de alta capacidade e controle total de ponta-a-ponta;</p>
+                </div>
+              </li>
+              <li data-aos="fade-up" data-aos-delay="300">
+                <i class="bi bi-broadcast"></i>
+                <div>
+                  <h5>Suporte ao Cliente</h5>
+                  <p>Representantes locais de vendas e suporte;</p>
+                </div>
+              </li>
+              <li data-aos="fade-up" data-aos-delay="300">
+                <i class="bi bi-broadcast"></i>
+                <div>
+                  <h5>Preço</h5>
+                  <p>Melhor custo benefício para um conjunto completo de recursos e serviços;</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Sobre nós Section -->
+
+    <!-- ======= Serviços Section ======= -->
+    <section id="service" class="services pt-0">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+          <span>Nossos Serviços</span>
+          <h2>Nossos Serviços</h2>
+        </div>
+        <div class="row gy-4">
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="card">
+              <div class="card-img">
+                <img decoding="async" fetchpriority="high" width="475" height="475" src="../Site-Modavo-main/assets/img/2fa-image.jpg"
+                  class="img-fluid" alt="">
+              </div>
+              <h3><a href="service-details.html" class="stretched-link">Autenticação de 2 fatores</a></h3>
+              <p>É um procedimento de segurança que garante que serão
+                necessários 2 fatores únicos para liberação de uma ação.</p>
+            </div>
+          </div><!-- End Card Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="card">
+              <div class="card-img">
+                <img decoding="async" fetchpriority="high" width="475" height="442" src="../Site-Modavo-main/assets/img/numero-mascara.png"
+                  class="img-fluid" alt="">
+              </div>
+              <br>
+              <h3><a href="service-details.html" class="stretched-link">Número Máscara</a></h3>
+              <p>Garanta aos seus clientes a capacidade de fazer chamadas e enviar
+                mensagens sem expor seus números de telefone pessoais.</p>
+            </div>
+          </div><!-- End Card Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="card">
+              <div class="card-img">
+                <img src="../Site-Modavo-main/assets/img/googleverifiedcalls.webp" alt="" class="img-fluid">
+              </div>
+              <h3><a href="service-details.html" class="stretched-link">Google Verified Calls</a></h3>
+              <p>Esse novo recurso do Google, exclusivo para
+                telefones Android, permite que empresas exibam
+                para o cliente na hora da chamada sua marca,
+                logotipo e até mesmo o motivo da chamada.</p>
+            </div>
+          </div><!-- End Card Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="card">
+              <div class="card-img">
+                <img decoding="async" fetchpriority="high" width="1024" height="1024"
+                  src="../Site-Modavo-main/assets/img/smsprogramavel.png" class="img-fluid" alt="">
+              </div>
+              <h3><a href="service-details.html" class="stretched-link">SMS Programável</a></h3>
+              <p>Com essa ferramenta você envia mensagens de SMS com
+                as informações que o seu cliente precisa e com a
+                segurança, a velocidade e a confiabilidade que você
+                espera.</p>
+            </div>
+          </div><!-- End Card Item -->
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+    <!-- ======= Call To Action Section ======= -->
+    <section id="call-to-action" class="call-to-action">
+      <div class="container" data-aos="zoom-out">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 text-center">
+            <h3>CPaaS e a Transformação Digital</h3>
+            <ul style="list-style: none;">
+              <li>
+                <p>Expectativa de crescimento estimado de
+                  <b>$8,2 bilhões</b> em 2021
+                </p>
+              <li>
+                <p><b>85% dos profissionais</b> se conectam de
+                  maneira diferente com colegas e clientes do que
+                  faziam há apenas 5 anos.</p>
+              <li>
+                <p>As receitas de CPaaS estão crescendo mais de
+                  <b>40% ao ano.</b>
+                </p>
+              <li>
+                <p>CPaaS já <b>ultrapassou</b> o mercado de UCaaS
+                  (Unified Communication as a Service).</p>
+              <li>
+                <p>Marcas que estão em <b>múltiplos canais</b>
+                  melhoram a experiência do usuário e aumentam
+                  seus resultados.</p>
+            </ul>
+            <button type="button" class="btn btn-primary p-2" data-aos="fade-up" data-aos-delay="100"
+              style="text-transform: uppercase;font-size: 15px;color:white;">faça um teste grátis ></button>
+            <button type="button" class="btn btn-success p-2" data-aos="fade-up" data-aos-delay="100"
+              style="text-transform: uppercase;font-size: 15px;color:white;">fale com um especialista ></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- End Call To Action Section -->
+<!--=================== Usos================-->
+    <section id="featured-services" class="featured-services">
+      <div class="container">
+        <div class="section-header">
+          <span>Usos</span>
+          <h2>Usos</h2>
+
+        </div>
+        <div class="row gy-4">
+          <div class="col-lg-3 col-md-6 service-item d-flex" data-aos="fade-up">
+            <div>
+              <div class="icon flex-shrink-0"><i class="bi bi-box-seam-fill"></i></div>
+              <h4 class="title">Logística</h4>
+              <p class="description">Acesso seguro com 2FA.
+                Uso de números mascarados
+                para proteção de funcionário
+
+                e cliente.
+
+                Mantenha o cliente
+                informado sobre entrega e
+
+                serviços.
+                Verified calling para
+                confirmação de entregas.</p>
+            </div>
+          </div>
+
+          <!-- End Service Item -->
+
+          <div class="col-lg-3 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="100">
+            <div>
+              <div class="icon flex-shrink-0"><i class="bi bi-cart-check-fill"></i></div>
+              <h4 class="title">Varejo</h4>
+              <p class="description">Compra segura com 2FA.
+                Avisos sobre compras e
+                entregas.
+
+                Upsell com novas ofertas e
+                vantagens via SMS ou
+                Verified Calling.</p>
+            </div>
+          </div>
+
+          <!-- End Service Item -->
+
+          <div class="col-lg-3 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="200">
+            <div>
+              <div class="icon flex-shrink-0"><i class="bi bi-chat-dots-fill"></i></div>
+              <h4 class="title">Call Center</h4>
+              <p class="description">Melhore taxas de abertura
+                utilizando alertas SMS para
+                confirmações.
+                Economia de números com o
+                uso de um único número
+                máscara por todos os agentes.
+                Verified Calling para
+                confirmação de
+                agendamentos.</p>
+            </div>
+          </div><!-- End Service Item -->
+          <div class="col-lg-3 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="200">
+
+            <div>
+              <div class="icon flex-shrink-0"><i class="bi bi-heart-pulse-fill"></i></div>
+              <h4 class="title">Saúde</h4>
+              <p class="description">Acesso seguro com 2FA.
+                Melhore o agendamento e
+                reduza faltas com lembretes por
+
+                SMS.
+
+                Tokens de autorização para
+                procedimentos com 2FA.
+                Verified Calling para avisos de
+                resultados e agendamentos.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Featured Services Section -->
+
+<!--===================Quem usa=================-->
+    <section id="featured-services" class="featured-services">
+      <div class="container">
+        <div class="section-header">
+          <span>Quem Usa</span>
+          <h2>Quem Usa</h2>
+        </div>
+        <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active d-flex m-auto" data-bs-interval="2000">
+              <img src="../Site-Modavo-main/assets/img/icons/5A.png" width="100px">
+              <img src="/assets/img/icons/99.png" width="100px" alt="">
+              <img src="/assets/img/icons/A.png" width="100px" alt="">
+              <img src="/assets/img/icons/amazon.png" width="100px" alt="">
+              <img src="/assets/img/icons/amil.png" width="100px" alt="">
+              <img src="/assets/img/icons/booking.png" width="100px" alt="">
+              <img src="/assets/img/icons/bradesco.png" width="100px" alt="">
+              <img src="/assets/img/icons/carteira.png" width="100px" alt="">
+              <img src="/assets/img/icons/carteirademotorista.png" width="100px" alt="">
+              <img src="/assets/img/icons/carteiradetrabalho.png" width="100px" alt="">
+              <img src="/assets/img/icons/ebay.png" width="100px" alt="">
+              <img src="/assets/img/icons/facebook.png" width="100px" alt="">
+              <img src="/assets/img/icons/globoplay.png" width="100px" alt="">
+              <img src="/assets/img/icons/ifood.png" width="100px" alt="">
+              <img src="/assets/img/icons/instagram.png" width="100px" alt="">
+              <img src="/assets/img/icons/mercadolivre.png" width="100px" alt="">
+              <img src="/assets/img/icons/mercadopago.png" width="100px" alt="">
+              <img src="/assets/img/icons/netflix.png" width="100px" alt="">
+              <img src="/assets/img/icons/picpay.png" width="100px" alt="">
+              <img src="/assets/img/icons/rappi.png" width="100px" alt="">
+              <img src="/assets/img/icons/salesforce.png" width="100px" alt="">
+              <img src="/assets/img/icons/sap.png" width="100px" alt="">
+              <img src="/assets/img/icons/shoppee.png" width="100px" alt="">
+              <img src="/assets/img/icons/skype.png" width="100px" alt="">
+              <img src="/assets/img/icons/tinder.png" width="100px" alt="">
+              <img src="/assets/img/icons/tradutor.png" width="100px" alt="">
+              <img src="/assets/img/icons/uber.png" width="100px" alt="">
+              <img src="/assets/img/icons/vtex.png" width="100px" alt="">
+              <img src="/assets/img/icons/whatsapp.png" width="100px" alt="">
+              <img src="/assets/img/icons/Z.png" width="100px" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--============== END Quem usa =================-->
+
+    <!-- ======= Testimonials Section ======= -->
+    <section id="testimonials" class="testimonials">
+      <div class="container">
+
+        <div class="slides-1 swiper" data-aos="fade-up">
+          <div class="swiper-wrapper">
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="../Site-Modavo-main/assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
+                <h3>Saul Goodman</h3>
+                <h4>Ceo &amp; Founder</h4>
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i>
+                  Comprei o serviço de 2FA para minha startup e estou surpreso com a segurança, indico completamente a
+                  Modavo!
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="../Site-Modavo-main/assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
+                <h3>Sara Wilsson</h3>
+                <h4>Designer</h4>
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i>
+                  Contratei o serviço de Número máscara para fazer alguns testes para meus clientes de design e está
+                  servindo muito, indico super!
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="../Site-Modavo-main/assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
+                <h3>Jena Karlis</h3>
+                <h4>Store Owner</h4>
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i>
+                  Comprei o serviço de Google Verifield Calls e agora consigo metrificar com detalhes a chamada que
+                  recebo, muito bom, indico MODAVO!!
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="../Site-Modavo-main/assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
+                <h3>Matt Brandon</h3>
+                <h4>Freelancer</h4>
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i>
+                  Com essa solução de SMS programável, consigo fazer disparos de sms para meus clientes e fazer
+                  propostas de vendas de produtos quando quero, ferramenta magnífica!
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="../Site-Modavo-main/assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
+                <h3>John Larson</h3>
+                <h4>Entrepreneur</h4>
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i>
+                  Estou maravilhado com todas as ferramentas que a Modavo disponibiliza e sua entrega de qualidade,
+                  simplesmente magníficos!!
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+
+      </div>
+    </section><!-- End Testimonials Section -->
+
+    
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-lg-6 col-md-12 footer-info">
+          <a href="index.php" class="logo d-flex align-items-center">
+            <span>Modavo - CPaaS</span>
+          </a>
+          <p>Siga nossas redes sociais para ficar por dentro de tudo</p>
+          <div class="social-links d-flex mt-4">
+            <a href="https://www.facebook.com/TelecallBr" target="_blank" class="facebook"><i
+                class="bi bi-facebook"></i></a>
+            <a href="https://www.instagram.com/telecallbr/" target="_blank" class="instagram"><i
+                class="bi bi-instagram"></i></a>
+            <a href="https://www.linkedin.com/company/telecall/" target="_blank" class="linkedin"><i
+                class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-12 footer-links">
+          <h4>Menu</h4>
+          <ul>
+            <li><a href="/index.php">Home</a></li>
+            <li><a href="#">Serviços</a></li>
+            <li><a href="#">Sobre Nós</a></li>
+            <li><a href="#">Contato</a></li>
+          </ul>
+        </div>
+
+        <div id="contato" class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+          <h4>Contato</h4>
+          <p>
+            Av. das Américas, 3434 |<br> Bloco 1, Sala 505 Barra da Tijuca |<br> Rio de Janeiro, RJ, Brasil <br> <br>
+            <i aria-hidden="true" class="fas fa-phone"></i> +55 21 3030-1010<br>
+            <i aria-hidden="true" class="fas fa-envelope"></i>
+            suporte@telecall.com<br>
+          </p>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container mt-4">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Dennison & Gabriel</span></strong>. <br>Todos os direitos reservados
+      </div>
+
+    </div>
+
+  </footer><!-- End Footer -->
+  <!-- End Footer -->
+
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="../Site-Modavo-main/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../Site-Modavo-main/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="../Site-Modavo-main/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="../Site-Modavo-main/assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="../Site-Modavo-main/assets/vendor/aos/aos.js"></script>
+  <script src="../Site-Modavo-main/assets/vendor/php-email-form/validate.js"></script>
+  <script src="../Site-Modavo-main/assets/js/page_login.js"></script>
+  <script src="../Site-Modavo-main/assets/js/fonte.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="../Site-Modavo-main/assets/js/main.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,203 @@
+:root {
+    --font-default: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-primary: "Inter", sans-serif;
+    --font-secondary: "Poppins", sans-serif;
+    --color-primary: #0E1D34;
+    --color-secondary: #00B7F1;
+    --color-default: #0E1D34;
+    --bgcolor-default: white;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: var(--font-default);
+    color: var(--color-default);
+  }
+  
+  a {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-primary);
+  }
+  
+  section {
+    padding: 80px 0;
+    overflow: hidden;
+    background-color: var(--bgcolor-default);
+  }
+  
+  .section-header {
+    text-align: center;
+    padding: 30px 0;
+    position: relative;
+  }
+  
+  .section-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 0;
+    color: var(--color-primary);
+    position: relative;
+    z-index: 2;
+  }
+  
+  .section-header h2:after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: white;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  
+  .section-header span {
+    position: absolute;
+    top: 46px;
+    color: white;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    font-weight: 700;
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    line-height: 0;
+  }
+  
+  .section-header p {
+    margin-bottom: 0;
+    position: relative;
+    z-index: 2;
+  }
+  
+  @media (max-width: 640px) {
+    .section-header h2 {
+      font-size: 1.75rem;
+      margin-bottom: 15px;
+    }
+  
+    .section-header span {
+      font-size: 2.375rem;
+    }
+  }
+  
+  /*--------------------------------------------------------------
+  # Custom styles for the form section
+  --------------------------------------------------------------*/
+  .conteudo-cliente {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .container-form {
+    background-color: #fafafa;
+    border-radius: 14px;
+    margin: 50px;
+    max-width: 500px;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .header {
+    background: linear-gradient(120deg, var(--color-secondary) 0%, #8bb0ff 100%);
+    padding: 2px;
+    text-align: center;
+    color: #FFF;
+  }
+  
+  .form {
+    padding: 18px;
+  }
+  
+  .form-content {
+    margin-bottom: 8px;
+    padding-bottom: 18px;
+    position: relative;
+  }
+  
+  .form-content label {
+    display: inline-block;
+    margin-bottom: 4px;
+  }
+  
+  .form-content input {
+    display: block;
+    width: 95%;
+    border-radius: 8px;
+    padding: 8px;
+    border: 2px solid #dfdfdf;
+  }
+  
+  .form-content a {
+    position: absolute;
+    bottom: 1px;
+    left: 0;
+    visibility: hidden;
+    font-size: 12px;
+  }
+  
+  .form button {
+    color: #FFF;
+    width: 20%;
+    border-radius: 14px;
+    padding: 10px;
+    border: 0;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 14px;
+    margin-left: 17vw;
+    background-color: var(--color-secondary);
+  }
+  
+  .form-content.error input {
+    border-color: #ff3b25;
+  }
+  
+  .form-content.error a {
+    color: #ff3b25;
+    visibility: visible;
+  }
+  
+  section.header h2 {
+    font-size: 28px;
+    text-align: center;
+  }
+  
+  /* Dialog */
+  dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  dialog {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.3);
+    width: 80%;
+    background: linear-gradient(to bottom, black, #165d9a, #00c3ff, white);
+  }
+  
+  dialog h2 {
+    color: black;
+    font-size: 18px;
+  }
+  
+  footer.form {
+    display: none;
+  }
+  

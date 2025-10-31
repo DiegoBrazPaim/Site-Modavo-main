@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Usuário Master</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+        }
+        .menu {
+            margin-bottom: 20px;
+        }
+        .menu a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #333;
+        }
+        .card {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            padding: 10px 15px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .table th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Painel do Usuário Master</h1>
+    </div>
+
+    <div class="container">
+
+        <div class="menu">
+            <a href="#principal">Tela Principal</a>
+            <a href="#login">Login</a>
+            <a href="#error">Erro</a>
+            <a href="#2fa">2FA</a>
+            <a href="#consulta-usuario">Consulta de Usuário</a>
+            <a href="#modelo-bd">Modelo do BD</a>
+            <a href="#logs">Logs de Autenticação</a>
+        </div>
+
+        <div id="principal" class="card">
+            <h2>Tela Principal</h2>
+            <p>Conteúdo da tela principal aqui...</p>
+        </div>
+
+        <div id="login" class="card">
+            <h2>Login</h2>
+            <p>Conteúdo da tela de login aqui...</p>
+        </div>
+
+        <div id="error" class="card">
+            <h2>Erro</h2>
+            <p>Conteúdo da tela de erro aqui...</p>
+        </div>
+
+        <div id="2fa" class="card">
+            <h2>Segundo Fator de Autenticação (2FA)</h2>
+            <p>Conteúdo da tela de 2FA aqui...</p>
+        </div>
+
+        <div id="consulta-usuario" class="card">
+            <h2>Consulta de Usuário</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>João da Silva</td>
+                        <td>joao.silva@example.com</td>
+                        <td><button>Excluir</button></td>
+                    </tr>
+                    <!-- Adicione mais linhas conforme necessário -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="modelo-bd" class="card">
+            <h2>Modelo do Banco de Dados</h2>
+            <p>Conteúdo da tela de modelo do BD aqui...</p>
+        </div>
+
+        <div id="logs" class="card">
+            <h2>Logs de Autenticação</h2>
+            <div class="form-group">
+                <label for="filtro">Filtrar por:</label>
+                <input type="text" id="filtro" placeholder="Nome do usuário, CPF ou todos">
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Data e Hora</th>
+                        <th>Nome</th>
+                        <th>2FA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2024-06-19 14:00</td>
+                        <td>Maria Oliveira</td>
+                        <td>SMS</td>
+                    </tr>
+                    <!-- Adicione mais linhas conforme necessário -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>

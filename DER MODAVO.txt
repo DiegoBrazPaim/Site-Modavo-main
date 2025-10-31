@@ -1,0 +1,48 @@
+Entidades e Atributos
+Usuário
+
+id_usuario (PK)
+nome
+genero
+Perfil_Usuario
+
+id_perfil (PK)
+tipo_perfil
+Cadastro
+
+id_cadastro (PK)
+id_usuario (FK)
+endereco
+cep
+email
+login
+senha
+telefone
+2FA (Autenticação de Dois Fatores)
+
+id_2fa (PK)
+id_usuario (FK)
+ativo
+GoogleVerfieldCalls
+
+id_gvc (PK)
+id_usuario (FK)
+ativo
+NumeroMascara
+
+id_numero_mascara (PK)
+id_usuario (FK)
+numero
+SMSProgramavel
+
+id_sms_programavel (PK)
+id_usuario (FK)
+mensagem
+horario_envio
+Relacionamentos
+Um Usuário pode ter um Cadastro.
+Um Usuário pode ter múltiplos Perfis de Usuário.
+Um Usuário pode ter 2FA.
+Um Usuário pode ter GoogleVerfieldCalls.
+Um Usuário pode ter múltiplos NumerosMascara.
+Um Usuário pode ter múltiplos SMSProgramavel.

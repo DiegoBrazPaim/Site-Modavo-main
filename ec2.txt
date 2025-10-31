@@ -1,0 +1,2 @@
+chmod 400 "tellecall-ec2.pem"
+ssh -i "tellecall-ec2.pem" ubuntu@ec2-54-158-8-25.compute-1.amazonaws.com
